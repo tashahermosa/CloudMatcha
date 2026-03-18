@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloud Matcha by sam</title>
-    
     <link rel="icon" type="image/png" href="favicon.png">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    
     <script>
         tailwind.config = {
             theme: {
@@ -27,311 +24,128 @@
             }
         }
     </script>
-    
     <style>
-        /* Loading the custom Soap Bubble font from your folder */
         @font-face {
             font-family: 'Soap Bubble';
-            src: url('soap-bubble.otf') format('truetype'); 
-            font-weight: normal;
-            font-style: normal;
+            src: url('soap-bubble.otf') format('opentype'); 
+            font-weight: normal; font-style: normal;
         }
-
-        #cart-items-container::-webkit-scrollbar {
-            width: 8px;
-        }
-        #cart-items-container::-webkit-scrollbar-track {
-            background: #fadce2; 
-            border-radius: 10px;
-        }
-        #cart-items-container::-webkit-scrollbar-thumb {
-            background: #8ba870; 
-            border-radius: 10px;
-        }
-        #cart-items-container::-webkit-scrollbar-thumb:hover {
-            background: #5c7345; 
-        }
-        #cart-items-container {
-            scrollbar-width: thin;
-            scrollbar-color: #8ba870 #fadce2;
-        }
+        #cart-items-container::-webkit-scrollbar { width: 8px; }
+        #cart-items-container::-webkit-scrollbar-track { background: #fadce2; border-radius: 10px; }
+        #cart-items-container::-webkit-scrollbar-thumb { background: #8ba870; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-cream text-gray-800 antialiased selection:bg-matcha selection:text-white relative">
 
     <nav class="flex justify-between items-center py-6 px-8 md:px-16 border-b border-matcha-light/50">
         <div class="text-5xl font-bubble text-matcha-dark tracking-wide pt-1">Cloud Matcha ☁️</div>
-        
         <div class="hidden md:flex text-sm font-serif text-gray-400">by sam & ash</div>
-        
-        <div>
-            <button onclick="toggleCart()" class="flex items-center space-x-2 text-matcha-dark hover:opacity-70 transition relative">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                <span id="cart-count" class="absolute -top-1 -right-1 bg-matcha-dark text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">0</span>
-            </button>
-        </div>
+        <button onclick="toggleCart()" class="relative text-matcha-dark">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span id="cart-count" class="absolute -top-1 -right-1 bg-matcha-dark text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center border-2 border-white">0</span>
+        </button>
     </nav>
 
     <main class="max-w-7xl mx-auto px-8 md:px-16 py-12 md:py-20 flex flex-col md:flex-row gap-12 md:gap-20 items-start">
-        
         <div class="w-full md:w-5/12 flex flex-col items-center md:sticky md:top-10 mx-auto max-w-sm">
-            
             <div class="relative group w-full">
-                <div class="absolute inset-0 bg-matcha-light rounded-[3rem] transform -rotate-3 scale-105 opacity-50 transition duration-500 group-hover:rotate-0 group-hover:scale-100"></div>
-                <div class="absolute top-6 -right-4 bg-white text-matcha-dark font-medium px-5 py-2 rounded-full shadow-xl z-20 border border-matcha-light transform rotate-3 text-sm">
-                    Weekend Drop
-                </div>
-                
-                <img src="cloud-matcha.jpg" 
-                     alt="Cloud Matcha Lattes and Arla Milk" 
-                     class="relative z-10 w-full h-[450px] object-cover rounded-[3rem] shadow-2xl">
+                <div class="absolute inset-0 bg-matcha-light rounded-[3rem] transform -rotate-3 scale-105 opacity-50"></div>
+                <img src="cloud-matcha.jpg" class="relative z-10 w-full h-[450px] object-cover rounded-[3rem] shadow-2xl" alt="Cloud Matcha">
             </div>
-
-            <p class="text-gray-700 font-medium mt-10 text-justify text-lg leading-relaxed px-2">
-                Hand-whisked premium stone-milled matcha (featuring cultivars of Okumidori, Saemidori & Yabukita) paired with our signature creamy foams, purees, and sea salt. Secure your spot for our upcoming weekend drops.
+            <p class="text-gray-700 font-medium mt-10 text-justify text-lg leading-relaxed">
+                Hand-whisked premium stone-milled matcha paired with our signature creamy foams, purees, and sea salt.
             </p>
-
         </div>
 
-        <div class="w-full md:w-7/12 flex flex-col justify-center" id="order">
-            <h1 class="text-4xl md:text-5xl font-serif text-matcha-dark mb-8 leading-tight">Reserve Your <br>Cloud Matcha Weekend</h1>
-
-            <p class="text-matcha-dark font-medium mb-10 text-center text-lg bg-white/40 py-3 rounded-xl border border-white">** All drinks already use oatmilk, so no additional charge!</p>
-
-            <form id="add-to-cart-form" class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-3 uppercase tracking-wide">Select Your Drink</label>
-                    <div class="space-y-4">
-                        <label class="cursor-pointer relative block group">
-                            <input type="radio" name="drink" value="Oat-G" data-price="215" class="peer sr-only" checked>
-                            <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 hover:shadow-md transition">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="font-serif font-semibold text-matcha-dark text-xl">Oat-G</span>
-                                    <span class="font-medium text-matcha-dark bg-matcha-light/50 px-3 py-1 rounded-full">₱215</span>
-                                </div>
-                                <p class="text-sm text-gray-500 mt-2">The original matcha latte crafted perfectly with creamy oatmilk.</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer relative block group">
-                            <input type="radio" name="drink" value="Banana Cream Matcha" data-price="255" class="peer sr-only">
-                            <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 hover:shadow-md transition">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="font-serif font-semibold text-matcha-dark text-xl">Banana Cream Matcha</span>
-                                    <span class="font-medium text-matcha-dark bg-matcha-light/50 px-3 py-1 rounded-full">₱255</span>
-                                </div>
-                                <p class="text-sm text-gray-500 mt-2">Our premium matcha topped with a luscious, fluffy banana cream foam.</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer relative block group">
-                            <input type="radio" name="drink" value="Sea Salt Matcha" data-price="230" class="peer sr-only">
-                            <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 hover:shadow-md transition">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="font-serif font-semibold text-matcha-dark text-xl">Sea Salt Matcha</span>
-                                    <span class="font-medium text-matcha-dark bg-matcha-light/50 px-3 py-1 rounded-full">₱230</span>
-                                </div>
-                                <p class="text-sm text-gray-500 mt-2">Rich matcha topped with a velvety, savory-sweet sea salt foam.</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer relative block group">
-                            <input type="radio" name="drink" value="Strawberry Matcha" data-price="230" class="peer sr-only">
-                            <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 hover:shadow-md transition">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="font-serif font-semibold text-matcha-dark text-xl">Strawberry Matcha</span>
-                                    <span class="font-medium text-matcha-dark bg-matcha-light/50 px-3 py-1 rounded-full">₱230</span>
-                                </div>
-                                <p class="text-sm text-gray-500 mt-2">Refreshing classic featuring strawberry puree and chilled matcha.</p>
-                            </div>
-                        </label>
-                        <label class="cursor-pointer relative block group">
-                            <input type="radio" name="drink" value="Ube Cheese Matcha" data-price="240" class="peer sr-only">
-                            <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 hover:shadow-md transition">
-                                <div class="flex justify-between items-center mb-1">
-                                    <span class="font-serif font-semibold text-matcha-dark text-xl">Ube Cheese Matcha</span>
-                                    <span class="font-medium text-matcha-dark bg-matcha-light/50 px-3 py-1 rounded-full">₱240</span>
-                                </div>
-                                <p class="text-sm text-gray-500 mt-2">Vibrant matcha layered over sweet ube and cream cheese foam.</p>
-                            </div>
-                        </label>
-                    </div>
+        <div class="w-full md:w-7/12" id="order">
+            <h1 class="text-4xl md:text-5xl font-serif text-matcha-dark mb-8">Reserve Your Weekend</h1>
+            <form id="add-to-cart-form" class="space-y-6" onsubmit="handleAddToCart(event)">
+                <div class="space-y-4">
+                    <label class="cursor-pointer block"><input type="radio" name="drink" value="Oat-G" data-price="215" class="peer sr-only" checked><div class="p-5 border-2 border-transparent bg-white rounded-2xl peer-checked:border-matcha">Oat-G (₱215)</div></label>
+                    <label class="cursor-pointer block"><input type="radio" name="drink" value="Banana Cream Matcha" data-price="255" class="peer sr-only"><div class="p-5 border-2 border-transparent bg-white rounded-2xl peer-checked:border-matcha">Banana Cream (₱255)</div></label>
+                    <label class="cursor-pointer block"><input type="radio" name="drink" value="Sea Salt Matcha" data-price="230" class="peer sr-only"><div class="p-5 border-2 border-transparent bg-white rounded-2xl peer-checked:border-matcha">Sea Salt (₱230)</div></label>
                 </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2 uppercase tracking-wide">Select Pickup/Delivery Date</label>
-                    <select name="pickup_date" id="pickup_date" class="w-full border-2 border-white shadow-sm rounded-xl py-4 px-4 bg-white focus:outline-none focus:border-matcha transition cursor-pointer">
-                        <option value="" disabled selected>Choose a weekend drop...</option>
-                        <option value="Saturday Drop">This Saturday (2pm - 6pm)</option>
-                        <option value="Sunday Drop">This Sunday (2pm - 6pm)</option>
-                    </select>
-                </div>
-
-                <button type="submit" id="add-btn" class="w-full bg-white text-matcha-dark border-2 border-matcha-dark py-4 mt-6 rounded-xl uppercase tracking-widest font-semibold hover:bg-matcha-light/30 transition shadow-sm">
-                    Add to Cart • ₱215
-                </button>
+                <select id="pickup_date" class="w-full p-4 rounded-xl bg-white border-2 border-white" required>
+                    <option value="" disabled selected>Choose a weekend drop...</option>
+                    <option value="Saturday Drop">This Saturday (2pm - 6pm)</option>
+                    <option value="Sunday Drop">This Sunday (2pm - 6pm)</option>
+                </select>
+                <button type="submit" class="w-full bg-matcha-dark text-white py-4 rounded-xl font-bold uppercase tracking-widest">Add to Cart</button>
             </form>
         </div>
     </main>
 
     <div id="cart-overlay" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm" onclick="toggleCart()"></div>
-    <div id="cart-panel" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-2xl max-h-[90vh] bg-cream rounded-3xl shadow-2xl z-50 hidden flex-col overflow-hidden">
-        <div class="p-6 border-b border-white flex justify-between items-center bg-white/40">
+    <div id="cart-panel" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[95%] max-w-2xl max-h-[90vh] bg-cream rounded-3xl shadow-2xl z-50 hidden flex flex-col overflow-hidden">
+        <div class="p-6 border-b border-white bg-white/40 flex justify-between">
             <h2 class="text-2xl font-serif text-matcha-dark">Your Cart</h2>
-            <button onclick="toggleCart()" class="text-gray-500 hover:text-matcha-dark"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+            <button onclick="toggleCart()">×</button>
         </div>
-        <div id="cart-items-container" class="flex-grow p-6 overflow-y-auto space-y-4 max-h-[30vh]">
-            <p class="text-gray-400 text-center mt-4 text-sm">Your cart is empty.</p>
-        </div>
-        <div class="p-6 border-t border-white bg-white/40 overflow-y-auto">
-            <div class="mb-5">
-                <label class="block text-sm font-medium text-gray-800 mb-2 uppercase tracking-wide">Delivery Options</label>
-                <select id="location-select" class="w-full border-2 border-white shadow-sm rounded-xl py-3 px-3 text-sm focus:outline-none focus:border-matcha bg-white cursor-pointer" onchange="updateCartUI()">
-                    <option value="pickup">Store Pickup</option>
-                    <option value="belair">Delivery: Within Belair</option>
-                    <option value="outside">Delivery: Outside of Belair</option>
-                </select>
-                
-                <div id="pickup-location-box" class="mt-3 bg-white p-4 rounded-xl border border-matcha-light hidden">
-                    <p class="text-xs font-bold uppercase text-matcha-dark mb-1">Pickup Address:</p>
-                    <p class="text-sm text-gray-700 leading-relaxed">Send a message in Instagram or Send an email with the order ID to get the details</p>
-                </div>
-
-                <textarea id="customer-address" placeholder="Enter delivery address..." class="w-full mt-3 border-2 border-white shadow-sm rounded-xl py-3 px-3 text-sm focus:outline-none focus:border-matcha bg-white hidden" rows="2"></textarea>
-                <div id="delivery-info" class="mt-3 text-xs bg-white p-3 rounded-xl border border-gray-100 hidden text-center">
-                    <p id="delivery-msg" class="font-medium text-matcha-dark text-sm"></p>
-                    <p class="text-red-500 font-semibold mt-1 hidden" id="min-drink-warning">⚠️ Minimum Order: 2 drinks required.</p>
-                </div>
-            </div>
-
-            <div id="payment-qr-area" class="mb-5 p-4 bg-white rounded-2xl border border-matcha-light text-center hidden">
-                <p class="text-[10px] font-bold uppercase tracking-widest text-matcha-dark mb-2">Scan QR to Pay with GCash</p>
-                <img src="gcash-qr.png" alt="GCash" class="mx-auto max-w-[150px] rounded-lg">
-            </div>
-
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-600 font-medium">Total:</span>
-                <span id="cart-total" class="text-2xl font-serif text-matcha-dark font-semibold">₱0</span>
-            </div>
-            <button onclick="submitPreorder()" id="checkout-btn" class="w-full bg-matcha-dark text-white py-4 rounded-xl uppercase tracking-widest font-medium hover:bg-matcha transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>Submit Pre-order</button>
+        <div id="cart-items-container" class="flex-grow p-6 overflow-y-auto"><div id="cart-list"></div></div>
+        <div class="p-6 border-t border-white bg-white/40">
+            <select id="location-select" class="w-full p-3 rounded-xl mb-3" onchange="updateCartUI()">
+                <option value="pickup">Store Pickup</option>
+                <option value="belair">Within Belair (Free)</option>
+                <option value="outside">Outside Belair (Customer covers Del. Fee)</option>
+            </select>
+            <textarea id="address-input" placeholder="Enter delivery address..." class="w-full p-3 rounded-xl hidden mb-3"></textarea>
+            <p id="min-drink-warning" class="text-red-500 text-xs font-bold text-center hidden mb-3">⚠️ Minimum 2 drinks required for Outside Belair.</p>
+            <div class="flex justify-between mb-4"><span class="font-medium">Total:</span><span id="cart-total" class="text-2xl font-bold">₱0</span></div>
+            <button onclick="submitPreorder()" id="checkout-btn" class="w-full bg-matcha-dark text-white py-4 rounded-xl disabled:opacity-50">Submit Pre-order</button>
         </div>
     </div>
 
-    <form id="matcha-form" action="https://formsubmit.co/samanthanicoleroco@gmail.com" method="POST">
+    <form id="matcha-form" action="https://formsubmit.co/samanthanicoleroco@gmail.com" method="POST" class="hidden">
         <input type="hidden" name="_contentType" value="text/html">
-        <input type="hidden" name="_subject" value="☁️ New Matcha Pre-order!">
-        <input type="hidden" name="_autoresponse" value="<html><body style='font-family:sans-serif; background-color:#f3f4f1; padding:20px;'><div style='max-width:500px; margin:0 auto; background:white; border-radius:30px; padding:40px; border:1px solid #e1e8d9;'><h1 style='color:#5c7345; text-align:center;'>Order Received! ☁️</h1><p style='color:#666; line-height:1.6;'>Thank you for your pre-order! We are getting your matcha ready for the next drop. Please remember to send your payment proof to @snarxco on IG to confirm your slot.</p><div style='text-align:center; margin-top:30px;'><a href='https://cloudmatcha.store' style='background:#5c7345; color:white; padding:15px 30px; text-decoration:none; border-radius:50px; font-weight:bold; font-size:12px;'>BACK TO STORE</a></div></div></body></html>">
-    
         <input type="hidden" name="_next" id="redirect-input" value="https://cloudmatcha.store/success.html">
-
         <input type="hidden" name="Order_ID" id="order-id-input">
         <input type="hidden" name="Total_Price" id="total-price-input">
         <input type="hidden" name="Order_Details" id="order-details-input">
-        <input type="email" name="email" id="customer-email-input" class="hidden" required>
+        <input type="email" name="email" id="customer-email-input">
     </form>
 
     <script>
         let cart = [];
-        const cartPanel = document.getElementById('cart-panel');
-        const cartOverlay = document.getElementById('cart-overlay');
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const cartTotalDisplay = document.getElementById('cart-total');
-        const cartCountBadge = document.getElementById('cart-count');
-        const checkoutBtn = document.getElementById('checkout-btn');
-
-        function toggleCart() {
-            cartPanel.classList.toggle('hidden');
-            cartPanel.classList.toggle('flex');
-            cartOverlay.classList.toggle('hidden');
+        const DEPLOY_URL = "https://cloudmatcha.store";
+        function toggleCart() { document.getElementById('cart-overlay').classList.toggle('hidden'); document.getElementById('cart-panel').classList.toggle('hidden'); }
+        function handleAddToCart(e) {
+            e.preventDefault();
+            const drink = document.querySelector('input[name="drink"]:checked');
+            const drop = document.getElementById('pickup_date').value;
+            cart.push({ name: drink.value, price: parseInt(drink.dataset.price), drop: drop });
+            updateCartUI(); toggleCart();
         }
-
-        document.getElementById('add-to-cart-form').addEventListener('submit', (e) => {
-            e.preventDefault(); 
-            const formData = new FormData(e.target);
-            const pickupDate = formData.get('pickup_date');
-            if (!pickupDate) { alert("Please select a date."); return; }
-            const selectedRadio = document.querySelector('input[name="drink"]:checked');
-            cart.push({ id: Date.now(), drink: formData.get('drink'), date: pickupDate, price: parseInt(selectedRadio.getAttribute('data-price')) });
-            updateCartUI();
-            if(cartPanel.classList.contains('hidden')) toggleCart();
-        });
-
-        function removeItem(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartUI();
-        }
-
         function updateCartUI() {
-            cartCountBadge.textContent = cart.length;
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="text-gray-400 text-center mt-4 text-sm">Your cart is empty.</p>';
-                cartTotalDisplay.textContent = '₱0';
-                checkoutBtn.disabled = true;
-                document.getElementById('delivery-info').classList.add('hidden');
-                document.getElementById('customer-address').classList.add('hidden');
-                document.getElementById('pickup-location-box').classList.add('hidden');
-                document.getElementById('payment-qr-area').classList.add('hidden');
-                return;
-            }
-            let total = 0;
-            cartItemsContainer.innerHTML = cart.map(item => {
-                total += item.price;
-                return `<div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm"><div><h3 class="font-serif font-semibold text-matcha-dark">${item.drink}</h3><p class="text-xs text-gray-400">${item.date}</p><span class="text-sm font-medium text-matcha-dark">₱${item.price}</span></div><button onclick="removeItem(${item.id})" class="text-red-400 text-xs underline">Remove</button></div>`;
-            }).join('');
-            cartTotalDisplay.textContent = `₱${total}`;
-            
             const loc = document.getElementById('location-select').value;
-            const drinkCount = cart.length;
-            const deliveryInfo = document.getElementById('delivery-info');
-            const addressInput = document.getElementById('customer-address');
-            const pickupBox = document.getElementById('pickup-location-box');
-            const qrArea = document.getElementById('payment-qr-area');
+            const hasMin = cart.length >= 2;
+            document.getElementById('address-input').classList.toggle('hidden', loc === 'pickup');
+            document.getElementById('min-drink-warning').classList.toggle('hidden', loc !== 'outside' || hasMin);
+            document.getElementById('checkout-btn').disabled = (loc === 'outside' && !hasMin) || cart.length === 0;
             
-            deliveryInfo.classList.remove('hidden');
-            addressInput.classList.toggle('hidden', loc === 'pickup');
-            pickupBox.classList.toggle('hidden', loc !== 'pickup');
-            
-            let isValid = true;
-            if ((loc === 'outside') && drinkCount < 2) isValid = false;
-            document.getElementById('min-drink-warning').classList.toggle('hidden', isValid);
-            qrArea.classList.toggle('hidden', !isValid);
-            
-            document.getElementById('delivery-msg').textContent = loc === 'pickup' ? '🏪 Pickup' : (loc === 'belair' ? '🛵 Belair: FREE (No min)' : '🛵 Outside: Lalamove (Min 2)');
-            checkoutBtn.disabled = !isValid;
+            let subtotal = 0; document.getElementById('cart-list').innerHTML = cart.map((i, idx) => {
+                subtotal += i.price; return `<div class="flex justify-between p-3 bg-white/60 rounded-xl mb-2"><span>${i.name}</span><b>₱${i.price}</b></div>`;
+            }).join('');
+            document.getElementById('cart-total').textContent = `₱${subtotal}`;
+            document.getElementById('cart-count').textContent = cart.length;
         }
-
         function submitPreorder() {
-            const customerEmail = prompt("Please enter your email address for confirmation:");
-            if (!customerEmail) return;
+            const email = prompt("Enter email for confirmation:");
+            if(!email || !email.includes('@')) return alert("Valid email required!");
+            const itemsList = cart.map(i => i.name).join(', ');
+            const id = `CM-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
+            const total = document.getElementById('cart-total').textContent;
+            const address = document.getElementById('address-input').value || 'Store Pickup';
 
-            const orderId = 'ORDER-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            const locText = document.getElementById('location-select').options[document.getElementById('location-select').selectedIndex].text;
-            const address = document.getElementById('customer-address').value || "Store Pickup";
-            const itemList = cart.map(item => item.drink).join(', ');
-            let total = 0;
-            cart.forEach(item => total += item.price);
-
-            document.getElementById('email-order-id').value = orderId;
-            document.getElementById('email-customer-input').value = customerEmail;
-            document.getElementById('email-total-price').value = `₱${total}`;
+            document.getElementById('order-id-input').value = id;
+            document.getElementById('total-price-input').value = total;
+            document.getElementById('customer-email-input').value = email;
+            document.getElementById('order-details-input').value = `Method: ${document.getElementById('location-select').value}\nAddress: ${address}\nItems: ${itemsList}`;
             
-            let details = `Fulfillment: ${locText}\nAddress: ${address}\n\nITEMS:\n`;
-            cart.forEach((item, i) => details += `${i+1}. ${item.drink} (${item.date}) - ₱${item.price}\n`);
-            document.getElementById('email-order-details').value = details;
-
-            const nextUrl = `success.html?id=${orderId}&delivery=${encodeURIComponent(locText)}&address=${encodeURIComponent(address)}&total=${total}&items=${encodeURIComponent(itemList)}`;
-            
-            let nextInput = document.querySelector('input[name="_next"]');
-            if(!nextInput) {
-                nextInput = document.createElement('input');
-                nextInput.type = 'hidden';
-                nextInput.name = '_next';
-                document.getElementById('email-form').appendChild(nextInput);
-            }
-            nextInput.value = window.location.href.split('?')[0].replace('index.html', '') + nextUrl;
-
-            alert(`Success! Order ID: ${orderId}\n\nA confirmation email has been sent. Please proceed to the next page for payment details.`);
-            
-            document.getElementById('email-form').submit();
+            // FIXED: Sending &items parameter
+            document.getElementById('redirect-input').value = `${DEPLOY_URL}/success.html?id=${id}&total=${total.replace('₱','')}&delivery=${document.getElementById('location-select').value}&address=${encodeURIComponent(address)}&items=${encodeURIComponent(itemsList)}`;
+            document.getElementById('matcha-form').submit();
         }
     </script>
 </body>

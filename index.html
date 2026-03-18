@@ -230,109 +230,125 @@
     </form>
 
     <script>
-        let cart = [];
-        const cartPanel = document.getElementById('cart-panel');
-        const cartOverlay = document.getElementById('cart-overlay');
-        const cartItemsContainer = document.getElementById('cart-items-container');
-        const cartTotalDisplay = document.getElementById('cart-total');
-        const cartCountBadge = document.getElementById('cart-count');
-        const checkoutBtn = document.getElementById('checkout-btn');
+        // --- 1. CART & DATA MANAGEMENT ---
+let cart = [];
+const DEPLOY_URL = "https://cloudmatcha.store";
 
-        function toggleCart() {
-            cartPanel.classList.toggle('hidden');
-            cartPanel.classList.toggle('flex');
-            cartOverlay.classList.toggle('hidden');
-        }
+// Function to add items to cart
+function addToCart(name, price, category) {
+    const selectedDrop = document.getElementById('drop-select').value;
+    if (!selectedDrop) {
+        alert("Please select a weekend drop date first! ☁️");
+        return;
+    }
 
-        document.getElementById('add-to-cart-form').addEventListener('submit', (e) => {
-            e.preventDefault(); 
-            const formData = new FormData(e.target);
-            const pickupDate = formData.get('pickup_date');
-            if (!pickupDate) { alert("Please select a date."); return; }
-            const selectedRadio = document.querySelector('input[name="drink"]:checked');
-            cart.push({ id: Date.now(), drink: formData.get('drink'), date: pickupDate, price: parseInt(selectedRadio.getAttribute('data-price')) });
-            updateCartUI();
-            if(cartPanel.classList.contains('hidden')) toggleCart();
-        });
+    const item = {
+        id: Date.now(),
+        name: name,
+        price: price,
+        drop: selectedDrop,
+        category: category
+    };
 
-        function removeItem(itemId) {
-            cart = cart.filter(item => item.id !== itemId);
-            updateCartUI();
-        }
+    cart.push(item);
+    updateCartDisplay();
+}
 
-        function updateCartUI() {
-            cartCountBadge.textContent = cart.length;
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p class="text-gray-400 text-center mt-4 text-sm">Your cart is empty.</p>';
-                cartTotalDisplay.textContent = '₱0';
-                checkoutBtn.disabled = true;
-                document.getElementById('delivery-info').classList.add('hidden');
-                document.getElementById('customer-address').classList.add('hidden');
-                document.getElementById('pickup-location-box').classList.add('hidden');
-                document.getElementById('payment-qr-area').classList.add('hidden');
-                return;
-            }
-            let total = 0;
-            cartItemsContainer.innerHTML = cart.map(item => {
-                total += item.price;
-                return `<div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm"><div><h3 class="font-serif font-semibold text-matcha-dark">${item.drink}</h3><p class="text-xs text-gray-400">${item.date}</p><span class="text-sm font-medium text-matcha-dark">₱${item.price}</span></div><button onclick="removeItem(${item.id})" class="text-red-400 text-xs underline">Remove</button></div>`;
-            }).join('');
-            cartTotalDisplay.textContent = `₱${total}`;
-            
-            const loc = document.getElementById('location-select').value;
-            const drinkCount = cart.length;
-            const deliveryInfo = document.getElementById('delivery-info');
-            const addressInput = document.getElementById('customer-address');
-            const pickupBox = document.getElementById('pickup-location-box');
-            const qrArea = document.getElementById('payment-qr-area');
-            
-            deliveryInfo.classList.remove('hidden');
-            addressInput.classList.toggle('hidden', loc === 'pickup');
-            pickupBox.classList.toggle('hidden', loc !== 'pickup');
-            
-            let isValid = true;
-            if ((loc === 'outside') && drinkCount < 2) isValid = false;
-            document.getElementById('min-drink-warning').classList.toggle('hidden', isValid);
-            qrArea.classList.toggle('hidden', !isValid);
-            
-            document.getElementById('delivery-msg').textContent = loc === 'pickup' ? '🏪 Pickup' : (loc === 'belair' ? '🛵 Belair: FREE (No min)' : '🛵 Outside: Lalamove (Min 2)');
-            checkoutBtn.disabled = !isValid;
-        }
+// Update the visual cart and hidden form fields
+function updateCartDisplay() {
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalDisplay = document.getElementById('cart-total');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    
+    let total = 0;
+    cartItemsDiv.innerHTML = '';
 
-        function submitPreorder() {
-            const customerEmail = prompt("Please enter your email address for confirmation:");
-            if (!customerEmail) return;
+    cart.forEach((item, index) => {
+        total += item.price;
+        cartItemsDiv.innerHTML += `
+            <div class="flex justify-between items-center bg-white/50 p-3 rounded-2xl mb-2 border border-white">
+                <div>
+                    <p class="text-sm font-bold text-[#5c7345]">${item.name}</p>
+                    <p class="text-[10px] text-gray-400 uppercase tracking-tighter">${item.drop}</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm font-medium">₱${item.price}</span>
+                    <button onclick="removeFromCart(${index})" class="text-red-300 hover:text-red-500 text-xs">Remove</button>
+                </div>
+            </div>
+        `;
+    });
 
-            const orderId = 'ORDER-' + Math.random().toString(36).substr(2, 6).toUpperCase();
-            const locText = document.getElementById('location-select').options[document.getElementById('location-select').selectedIndex].text;
-            const address = document.getElementById('customer-address').value || "Store Pickup";
-            const itemList = cart.map(item => item.drink).join(', ');
-            let total = 0;
-            cart.forEach(item => total += item.price);
+    totalDisplay.textContent = total;
+    
+    // Update Hidden Form Inputs for FormSubmit
+    document.getElementById('total-price-input').value = `₱${total}`;
+    document.getElementById('order-id-input').value = `ORDER-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+    
+    let details = `ITEMS:\n` + cart.map((item, i) => `${i+1}. ${item.name} (${item.drop}) - ₱${item.price}`).join('\n');
+    const fulfillment = document.querySelector('input[name="fulfillment"]:checked').value;
+    const address = document.getElementById('address-input').value;
+    
+    document.getElementById('order-details-input').value = `Fulfillment: ${fulfillment}\nAddress: ${address}\n\n${details}`;
+}
 
-            document.getElementById('email-order-id').value = orderId;
-            document.getElementById('email-customer-input').value = customerEmail;
-            document.getElementById('email-total-price').value = `₱${total}`;
-            
-            let details = `Fulfillment: ${locText}\nAddress: ${address}\n\nITEMS:\n`;
-            cart.forEach((item, i) => details += `${i+1}. ${item.drink} (${item.date}) - ₱${item.price}\n`);
-            document.getElementById('email-order-details').value = details;
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartDisplay();
+}
 
-            const nextUrl = `success.html?id=${orderId}&delivery=${encodeURIComponent(locText)}&address=${encodeURIComponent(address)}&total=${total}&items=${encodeURIComponent(itemList)}`;
-            
-            let nextInput = document.querySelector('input[name="_next"]');
-            if(!nextInput) {
-                nextInput = document.createElement('input');
-                nextInput.type = 'hidden';
-                nextInput.name = '_next';
-                document.getElementById('email-form').appendChild(nextInput);
-            }
-            nextInput.value = window.location.href.split('?')[0].replace('index.html', '') + nextUrl;
+// --- 2. THE FINAL SUBMISSION LOGIC (THE FIX) ---
+function submitOrder() {
+    // Basic Validations
+    if (cart.length === 0) {
+        alert("Your cart is empty! 🍵");
+        return;
+    }
 
-            alert(`Success! Order ID: ${orderId}\n\nA confirmation email has been sent. Please proceed to the next page for payment details.`);
-            
-            document.getElementById('email-form').submit();
-        }
+    const address = document.getElementById('address-input').value;
+    if (!address || address.length < 5) {
+        alert("Please enter a delivery address or pickup note!");
+        return;
+    }
+
+    // Capture Customer Email
+    const userEmail = prompt("Please enter your email address for order confirmation:");
+
+    if (userEmail && userEmail.includes('@')) {
+        // 1. Set the email in the hidden field
+        document.getElementById('customer-email-input').value = userEmail;
+
+        // 2. Prepare the Redirect URL with parameters for success.html
+        const orderId = document.getElementById('order-id-input').value;
+        const total = document.getElementById('cart-total').textContent;
+        const fulfillment = document.querySelector('input[name="fulfillment"]:checked').value;
+        const itemsList = cart.map(item => item.name).join(', ');
+
+        const nextUrl = `${DEPLOY_URL}/success.html?id=${orderId}&total=${total}&delivery=${fulfillment}&address=${encodeURIComponent(address)}&items=${encodeURIComponent(itemsList)}`;
+        
+        // Update the hidden _next field
+        document.getElementById('redirect-input').value = nextUrl;
+
+        // 3. Trigger the FormSubmit
+        console.log("Launching Cloud Matcha Order...");
+        document.getElementById('matcha-form').submit();
+    } else if (userEmail !== null) {
+        alert("A valid email is required so we can send your receipt! ✨");
+    }
+}
+
+// --- 3. UI HELPERS ---
+function copyGcash() {
+    const num = "09178705824"; // Replace with your actual number
+    navigator.clipboard.writeText(num).then(() => {
+        alert("GCash number copied to clipboard! 📋");
+    });
+}
+
+// Ensure the form updates if fulfillment method changes
+document.querySelectorAll('input[name="fulfillment"]').forEach(input => {
+    input.addEventListener('change', updateCartDisplay);
+});
     </script>
 </body>
 </html>

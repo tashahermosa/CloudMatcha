@@ -152,6 +152,7 @@
         <input type="hidden" name="_contentType" value="text/html">
         <input type="hidden" name="_next" id="redirect-input" value="https://cloudmatcha.store/success.html">
         <input type="hidden" name="Order_ID" id="order-id-input">
+        <input type="hidden" name="Drop_Date" id="drop-date-input">
         <input type="hidden" name="Total_Price" id="total-price-input">
         <input type="hidden" name="Order_Details" id="order-details-input">
         <input type="email" name="email" id="customer-email-input">
@@ -247,12 +248,14 @@
             const items = Object.values(cart).map(i => `${i.quantity}x ${i.name}`).join(', ');
             const loc = document.getElementById('location-select').value;
             const addr = document.getElementById('address-input').value || 'Store Pickup';
+            const dropDates = [...new Set(Object.values(cart).map(i => i.drop))].join(' & ');
 
             document.getElementById('order-id-input').value = id;
+            document.getElementById('drop-date-input').value = dropDates;
             document.getElementById('total-price-input').value = total;
             document.getElementById('customer-email-input').value = email;
             document.getElementById('order-details-input').value = `Method: ${loc}\nAddress: ${addr}\nItems: ${items}`;
-            document.getElementById('redirect-input').value = `${DEPLOY_URL}/success.html?id=${id}&total=${total.replace('₱','')}&delivery=${loc}&address=${encodeURIComponent(addr)}&items=${encodeURIComponent(items)}`;
+            document.getElementById('redirect-input').value = `${DEPLOY_URL}/success.html?id=${id}&total=${total.replace('₱','')}&delivery=${loc}&drop=${encodeURIComponent(dropDates)}&address=${encodeURIComponent(addr)}&items=${encodeURIComponent(items)}`;
             document.getElementById('matcha-form').submit();
         }
     </script>

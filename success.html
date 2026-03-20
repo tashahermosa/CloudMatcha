@@ -88,18 +88,25 @@
         const params = new URLSearchParams(window.location.search);
         document.getElementById('display-id').textContent = params.get('id') || 'CM-ORDER';
         document.getElementById('display-total').textContent = '₱' + (params.get('total') || '0');
-        
-        const delivery = params.get('delivery') || 'Standard';
-        document.getElementById('display-delivery').textContent = delivery.replace('pickup', 'Store Pickup').replace('belair', 'Within Belair').replace('outside', 'Outside Belair');
-        
+    
+        // Get delivery method and format it
+        let deliveryText = (params.get('delivery') || 'Standard').replace('pickup', 'Store Pickup').replace('belair', 'Within Belair').replace('outside', 'Outside Belair');
+    
+        // NEW: Attach the Drop Date to the Fulfillment text
+        const drop = params.get('drop');
+        if (drop) {
+            deliveryText += ` (${drop})`; 
+        }
+        document.getElementById('display-delivery').textContent = deliveryText;
+    
         document.getElementById('display-address').textContent = params.get('address') || 'Check Email/IG for Details';
-        
+    
         const items = params.get('items');
         document.getElementById('display-items').textContent = items ? decodeURIComponent(items) : 'Cloud Matcha Drink(s)';
 
         function copyNumber() {
             navigator.clipboard.writeText("09178705824");
-            alert("GCash Number Copied!");
+            alert("GCash Number Copied! 🍵");
         }
     </script>
 </body>

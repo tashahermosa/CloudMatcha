@@ -68,6 +68,13 @@
             <form id="add-to-cart-form" class="space-y-6" onsubmit="handleAddToCart(event)">
                 <div class="space-y-4">
                     <label class="cursor-pointer block group">
+                        <input type="radio" name="drink" value="Classic Matcha Latte" data-price="180" class="peer sr-only" checked>
+                        <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 transition">
+                            <div class="flex justify-between font-serif font-semibold text-matcha-dark text-xl"><span>Classic Matcha Latte</span><span>₱180</span></div>
+                            <p class="text-sm text-gray-500 mt-2">A smooth, traditional blend of finely ground, premium matcha green tea and rich milk.</p>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer block group">
                         <input type="radio" name="drink" value="Oat-G" data-price="215" class="peer sr-only" checked>
                         <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 transition">
                             <div class="flex justify-between font-serif font-semibold text-matcha-dark text-xl"><span>Oat-G</span><span>₱215</span></div>
@@ -100,6 +107,13 @@
                         <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 transition">
                             <div class="flex justify-between font-serif font-semibold text-matcha-dark text-xl"><span>Ube Cheese Matcha</span><span>₱240</span></div>
                             <p class="text-sm text-gray-500 mt-2">Vibrant matcha layered over sweet ube and cream cheese foam.</p>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer block group">
+                        <input type="radio" name="drink" value="Earl Grey Matcha" data-price="240" class="peer sr-only" checked>
+                        <div class="p-5 border-2 border-transparent bg-white shadow-sm rounded-2xl peer-checked:border-matcha peer-checked:bg-matcha-light/20 transition">
+                            <div class="flex justify-between font-serif font-semibold text-matcha-dark text-xl"><span>Earl Grey Matcha</span><span>₱240</span></div>
+                            <p class="text-sm text-gray-500 mt-2">An elegant collision of two tea classics, blending the citrusy, floral notes of Earl Grey with vibrant green tea.</p>
                         </div>
                     </label>
                 </div>
